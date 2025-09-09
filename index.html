@@ -1,4 +1,4 @@
-<!doctype html><html><head><style type="text/css"></style></head><body><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -140,7 +140,7 @@
 
 		video {
 			width: 100%;
-			max-height: 480px;
+			max-height: 80vh;
 			border-radius: 10px;
 			background: black;
 			outline: 2px solid #ff5722;
@@ -153,6 +153,20 @@
 			font-size: 1.3rem;
 			text-align: center;
 			color: #ff7043;
+		}
+
+		#fullscreen-btn {
+			margin-top: 10px;
+			background: #ff5722;
+			color: #fff;
+			border: none;
+			padding: 8px 16px;
+			font-weight: 600;
+			border-radius: 6px;
+			cursor: pointer;
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
 		}
 
 		footer {
@@ -193,6 +207,7 @@
 				<source src="" type="video/mp4" />
 				Your browser does not support the video tag.
 			</video>
+			<button id="fullscreen-btn">Go Fullscreen</button>
 			<p id="video-title">Select an anime and episode to start watching.</p>
 			<div id="episodes-container"></div>
 		</section>
@@ -292,7 +307,7 @@
         const card = document.createElement('div');
         card.className = 'anime-card';
         card.innerHTML = `
-          <img src="${anime.image}" alt="${anime.title}" />
+          <img src="${anime.image || 'https://via.placeholder.com/180x240?text=No+Image'}" alt="${anime.title}" />
           <h3>${anime.title}</h3>
         `;
         card.addEventListener('click', () => {
@@ -336,10 +351,21 @@
       videoTitle.textContent = `${currentAnime.title} - Episode ${episode.ep}`;
     }
 
+    document.getElementById('fullscreen-btn').addEventListener('click', () => {
+      const player = document.getElementById('video-player');
+      if (player.requestFullscreen) {
+        player.requestFullscreen();
+      } else if (player.webkitRequestFullscreen) {
+        player.webkitRequestFullscreen();
+      } else if (player.msRequestFullscreen) {
+        player.msRequestFullscreen();
+      }
+    });
+
     renderAnimeList();
     document.getElementById('year').textContent = new Date().getFullYear();
 	</script>
 
 </body>
 
-</html><script type="text/javascript"></script></body><html>
+</html>
